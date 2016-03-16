@@ -1,11 +1,15 @@
 /*
- *  Proyecto_Graficas.cpp
+ * GLUT Shapes Demo
  *
- *  Proyecto de la clase de Graficas Computacionales
+ * Written by Nigel Stewart November 2003
  *
- *  @author Luis Angel Martinez     A00813485
- *  @author Andres Alvarez Chavez   A00813787
- *  @date 15/03/2016
+ * This program is test harness for the sphere, cone
+ * and torus shapes in GLUT.
+ *
+ * Spinning wireframe and smooth shaded shapes are
+ * displayed until the ESC or q key is pressed.  The
+ * number of geometry stacks and slices can be adjusted
+ * using the + and - keys.
  */
 #include <windows.h>
 #ifdef __APPLE__
@@ -13,8 +17,13 @@
 #else
 #include <GL/glut.h>
 #endif
+
 #include <stdlib.h>
 
+int iPlayerX = 0;
+int xSpawn = rand()% 5 + (-2);
+
+/* GLUT callback Handlers */
 
 static void resize(int width, int height)
 {
@@ -23,7 +32,7 @@ static void resize(int width, int height)
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
+    glFrustum(-0.75, 0.75, -1.0, 1.0, 2.0, 100.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity() ;
@@ -33,36 +42,41 @@ static void display(void)
 {
     const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
     const double a = t*90.0;
+    double y = t*-1;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glColor3d(0,0.35,1);
 
     glPushMatrix();
-        glTranslated(0,-2.5,-6);
+        glTranslated(iPlayerX,-2.5,-6);
         glRotated(75,-1,0,0);
         glRotated(a,0,0,1);
         glutSolidCube(0.4);
     glPopMatrix();
 
+    glPushMatrix();
+        glColor3d(1, 1, 0);
+        glTranslated(xSpawn, y, 0);
+        glTranslated(0, 2.5, -6);
+        glutSolidSphere(0.2, 16, 16);
+    glPopMatrix();
+
     glutSwapBuffers();
 }
 
-/*@void specialkey (unsigned char key)
+void specialkey (int key, int mouseX, int mouseY)
 {
-
-}*/
-
-
-static void key(unsigned char key, int x, int y)
-{
-    switch (key)
-    {
-        case 27 :
-        case 'q':
-            exit(0);
+    switch(key)
+        {
+        case GLUT_KEY_RIGHT:
+            if (iPlayerX != 2)
+                iPlayerX += 1;
             break;
-    }
-
+        case GLUT_KEY_LEFT:
+            if (iPlayerX != -2)
+                iPlayerX -= 1;
+            break;
+        }
     glutPostRedisplay();
 }
 
@@ -90,12 +104,12 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("Avoid the drugs!");
+    glutCreateWindow("Avoid the Drugs!");
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
-    glutKeyboardFunc(key);
     glutIdleFunc(idle);
+    glutSpecialFunc(specialkey);
 
     glClearColor(0.05,0.5,0.05,1);
     glEnable(GL_CULL_FACE);
