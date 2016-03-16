@@ -13,13 +13,8 @@
 #else
 #include <GL/glut.h>
 #endif
-
 #include <stdlib.h>
 
-static int slices = 16;
-static int stacks = 16;
-
-/* GLUT callback Handlers */
 
 static void resize(int width, int height)
 {
@@ -66,19 +61,6 @@ static void key(unsigned char key, int x, int y)
         case 'q':
             exit(0);
             break;
-
-        case '+':
-            slices++;
-            stacks++;
-            break;
-
-        case '-':
-            if (slices>3 && stacks>3)
-            {
-                slices--;
-                stacks--;
-            }
-            break;
     }
 
     glutPostRedisplay();
@@ -108,7 +90,7 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(10,10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("GLUT Shapes");
+    glutCreateWindow("Avoid the drugs!");
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
