@@ -1,15 +1,11 @@
 /*
- * GLUT Shapes Demo
+ *  Proyecto_Graficas.cpp
  *
- * Written by Nigel Stewart November 2003
+ *  Proyecto de la clase de Graficas Computacionales
  *
- * This program is test harness for the sphere, cone
- * and torus shapes in GLUT.
- *
- * Spinning wireframe and smooth shaded shapes are
- * displayed until the ESC or q key is pressed.  The
- * number of geometry stacks and slices can be adjusted
- * using the + and - keys.
+ *  @author Luis Angel Martinez     A00813485
+ *  @author Andres Alvarez Chavez   A00813787
+ *  @date 15/03/2016
  */
 #include <windows.h>
 #ifdef __APPLE__
